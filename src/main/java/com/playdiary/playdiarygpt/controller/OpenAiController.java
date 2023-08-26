@@ -1,5 +1,7 @@
 package com.playdiary.playdiarygpt.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.playdiary.playdiarygpt.music.Music;
 import com.playdiary.playdiarygpt.service.OpenAiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +18,20 @@ public class OpenAiController {
         this.openAiService = openAiService;
     }
 
-    @PostMapping("/complete")
-    public ResponseEntity<String> completePrompt(@RequestBody String prompt) {
-        String response = openAiService.callOpenAiApi(prompt);
+    @PostMapping("/musicTest")
+    public String musicTest(@RequestBody String prompt) throws JsonProcessingException {
 
-        return ResponseEntity.ok(response);
+        return openAiService.parseOpenAiResponse(prompt);
     }
     @PostMapping("/generate")
     public ResponseEntity<String> generatePrompt(@RequestBody String prompt) {
         String response = openAiService.generateText(prompt);
+
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/gpt")
+    public ResponseEntity<String> gptTest(@RequestBody String prompt) {
+        String response = openAiService.generateChat();
 
         return ResponseEntity.ok(response);
     }
